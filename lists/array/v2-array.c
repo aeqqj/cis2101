@@ -12,7 +12,12 @@ typedef struct node {
 
 void init_list(al_type);
 void read_list(al_type);
-bool locate_elem(al_type, elem_type);
+int locate_elem(al_type, elem_type);
+bool is_member(al_type, elem_type);
+void make_null(al_type);
+
+bool is_full(al_type);
+bool is_empty(al_type);
 
 void insert_first(al_type, elem_type);
 void insert_last(al_type, elem_type);
@@ -43,7 +48,16 @@ void read_list(al_type list)
     }
 }
 
-bool locate_elem(al_type list, elem_type x)
+int locate_elem(al_type list, elem_type x)
+{
+    int i;
+
+    for (i = 0; i < list->count && x != list->data[i]; i++) { }
+
+    return (i < list->count) ? i : -1;
+}
+
+bool is_member(al_type list, elem_type x)
 {
     int i;
 
@@ -52,9 +66,24 @@ bool locate_elem(al_type list, elem_type x)
     return (i < list->count) ? true : false;
 }
 
+void make_null(al_type list)
+{
+    list->count = 0;
+}
+
+bool is_full(al_type list)
+{
+    return (list->count == MAX) ? true : false;
+}
+
+bool is_empty(al_type list)
+{
+    return (list->count == 0) ? true : false;
+}
+
 void insert_first(al_type list, elem_type x)
 {
-    if (list->count < MAX) {
+    if (!is_full(list)) {
         int i;
 
         for (i = list->count; i > 0; i--) {
@@ -67,7 +96,7 @@ void insert_first(al_type list, elem_type x)
 
 void insert_last(al_type list, elem_type x)
 {
-    if (list->count < MAX) {
+    if (!is_full(list)) {
         list->data[list->count] = x;
         list->count++;
     }
@@ -75,7 +104,7 @@ void insert_last(al_type list, elem_type x)
 
 void insert_pos(al_type list, elem_type x, int pos)
 {
-    if (pos >= 0 && list->count < MAX && pos <= list->count) {
+    if (pos >= 0 && !is_full(list) && pos <= list->count) {
         int i;
 
         for (i = list->count; i > pos; i--) {
@@ -88,7 +117,7 @@ void insert_pos(al_type list, elem_type x, int pos)
 
 void insert_sorted(al_type list, elem_type x)
 {
-    if (list->count < MAX) {
+    if (!is_full(list)) {
         int i, j;
 
         for (i = 0; i < list->count && x > list->data[i]; i++) { }
@@ -103,7 +132,7 @@ void insert_sorted(al_type list, elem_type x)
 
 void insert_sorted_unique(al_type list, elem_type x)
 {
-    if (list->count < MAX) {
+    if (!is_full(list)) {
         int i, j;
 
         for (i = 0; i < list->count && x > list->data[i]; i++) { }
@@ -120,7 +149,7 @@ void insert_sorted_unique(al_type list, elem_type x)
 
 void delete_first(al_type list)
 {
-    if (list->count != 0) {
+    if (!is_empty(list)) {
         int i;
         list->count--;
 
@@ -132,7 +161,7 @@ void delete_first(al_type list)
 
 void delete_last(al_type list)
 {
-    if (list->count != 0) {
+    if (!is_empty(list)) {
         list->count--;
     }
 }
@@ -159,6 +188,7 @@ void delete_all_occur(al_type list, elem_type x)
     for (i = 0; i < list->count;) {
         if (x == list->data[i]) {
             list->count--;
+
             for (j = i; j < list->count; j++) {
                 list->data[j] = list->data[j + 1];
             }

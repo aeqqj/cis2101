@@ -14,7 +14,7 @@ void init_list(al_type*);
 void read_list(al_type);
 int locate_elem(al_type, elem_type);
 bool is_member(al_type, elem_type);
-void make_null(al_type*); // for formalities
+void make_null(al_type*);
 
 bool is_full(al_type);
 bool is_empty(al_type);
@@ -27,11 +27,34 @@ void insert_sorted_unique(al_type*, elem_type);
 
 void delete_first(al_type*);
 void delete_last(al_type*);
+void delete_pos(al_type*, int);
 void delete_elem(al_type*, elem_type);
 void delete_all_occur(al_type*, elem_type);
 
 int main()
 {
+    al_type list;
+    char arr[10] = "123456789";
+    int i;
+
+    init_list(&list);
+
+    insert_first(&list, arr[0]);
+    insert_last(&list, arr[2]);
+    insert_sorted(&list, arr[1]);
+    insert_sorted_unique(&list, '1');
+    insert_pos(&list, arr[3], 3);
+
+    printf("Insert result: ");
+    read_list(list);
+
+    delete_first(&list);
+    delete_last(&list);
+    delete_elem(&list, '3');
+    delete_all_occur(&list, '2');
+
+    printf("Delete result: ");
+    read_list(list);
 }
 
 void init_list(al_type* list)
@@ -46,6 +69,7 @@ void read_list(al_type list)
     for (i = 0; i < list.count; i++) {
         printf("%c ", list.data[i]);
     }
+    printf("\n");
 }
 
 int locate_elem(al_type list, elem_type x)
@@ -162,6 +186,18 @@ void delete_first(al_type* list)
 void delete_last(al_type* list)
 {
     if (!is_empty(*list)) {
+        list->count--;
+    }
+}
+
+void delete_pos(al_type* list, int pos)
+{
+    if (pos >= 0 && !is_empty(*list) && pos < list->count) {
+        int i;
+
+        for (i = pos; i < list->count; i++) {
+            list->data[i] = list->data[i + 1];
+        }
         list->count--;
     }
 }

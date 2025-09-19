@@ -3,7 +3,7 @@
 
 /*
 
-TODO 
+TODO
 
 - Update the popUnique() funtion // Completed (for testing)
 - make deleteValue() function
@@ -151,14 +151,17 @@ void popUnique(SPtr S, int value)
     {
       int uniqueIndex = 0;
 
-      while (uniqueIndex != S->top) {
-        if (S->items[uniqueIndex] == value) {
+      while (uniqueIndex != S->top)
+      {
+        if (S->items[uniqueIndex] == value)
+        {
           break;
         }
         uniqueIndex++;
       }
 
-      for (; uniqueIndex < S->top; uniqueIndex++) {
+      for (; uniqueIndex < S->top; uniqueIndex++)
+      {
         S->items[uniqueIndex] = S->items[uniqueIndex + 1];
       }
 
@@ -198,12 +201,16 @@ void displayStack(STACK S)
   }
 }
 
-void insertSortS(SPtr S) {
+void insertSortS(SPtr S)
+{
   int temp = 0;
 
-  for (int i = 1; i <= S->top; i++) {
-    for (int j = i; j > 0; j--) {
-      if (S->items[j] < S->items[j - 1]) {
+  for (int i = 1; i <= S->top; i++)
+  {
+    for (int j = i; j > 0; j--)
+    {
+      if (S->items[j] < S->items[j - 1])
+      {
         temp = S->items[j - 1];
         S->items[j - 1] = S->items[j];
         S->items[j] = temp;

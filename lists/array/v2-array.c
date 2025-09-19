@@ -11,7 +11,7 @@ typedef struct node {
     int count;
 }* al_type;
 
-void init_list(al_type);
+void init_list(al_type*);
 void read_list(al_type);
 int locate_elem(al_type, elem_type);
 bool is_member(al_type, elem_type);
@@ -34,7 +34,9 @@ void delete_all_occur(al_type, elem_type);
 
 int main()
 {
-    al_type list = (al_type)malloc(sizeof(struct node));
+    al_type list;
+
+    init_list(&list);
 
     insert_first(list, '1');
     insert_last(list, '4');
@@ -57,9 +59,10 @@ int main()
     free(list);
 }
 
-void init_list(al_type list)
+void init_list(al_type* list)
 {
-    list->count = 0;
+    *list = (al_type)malloc(sizeof(struct node));
+    (*list)->count = 0;
 }
 
 void read_list(al_type list)

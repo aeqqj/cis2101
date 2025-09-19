@@ -20,6 +20,8 @@ bool is_full(s_type);
 bool is_empty(s_type);
 
 void push(s_type*, elem_type);
+void push_sorted(s_type*, elem_type);
+void push_sorted_unique(s_type*, elem_type);
 void pop(s_type*);
 void insert_bottom(s_type*, elem_type);
 
@@ -91,8 +93,10 @@ bool is_member(s_type stack, elem_type x)
 
 void make_null(s_type* stack)
 {
-    if (!is_empty(*stack)) {
+    if (stack->data != NULL) {
         free(stack->data);
+        stack->data = NULL;
+        stack->top = -1;
     }
 }
 
@@ -110,6 +114,52 @@ void push(s_type* stack, elem_type x)
 {
     if (!is_full(*stack)) {
         stack->data[++stack->top] = x;
+    }
+}
+
+void push_sorted(s_type* stack, elem_type x)
+{
+    if (!is_full(*stack)) {
+        s_type temp_stack;
+
+        init_stack(&temp_stack);
+
+        while (!is_empty(*stack) && x > stack->data[stack->top]) {
+            push(&temp_stack, stack->data[stack->top]);
+            pop(stack);
+        }
+
+        push(stack, x);
+
+        while (!is_empty(temp_stack)) {
+            push(stack, temp_stack.data[temp_stack.top]);
+            pop(&temp_stack);
+        }
+        make_null(&temp_stack);
+    }
+}
+
+void push_sorted_unique(s_type* stack, elem_type x)
+{
+    if (!is_full(*stack)) {
+        s_type temp_stack;
+
+        init_stack(&temp_stack);
+
+        while (!is_empty(*stack) && x > stack->data[stack->top]) {
+            push(&temp_stack, stack->data[stack->top]);
+            pop(stack);
+        }
+
+        if (is_empty(*stack) || x != stack->data[stack->top]) {
+            push(stack, x);
+        }
+
+        while (!is_empty(temp_stack)) {
+            push(stack, temp_stack.data[temp_stack.top]);
+            pop(&temp_stack);
+        }
+        make_null(&temp_stack);
     }
 }
 
@@ -138,6 +188,7 @@ void insert_bottom(s_type* stack, elem_type x)
             push(stack, temp_stack.data[temp_stack.top]);
             pop(&temp_stack);
         }
+        make_null(&temp_stack);
     }
 }
 

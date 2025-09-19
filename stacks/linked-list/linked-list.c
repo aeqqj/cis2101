@@ -17,6 +17,8 @@ void make_null(s_type*);
 bool is_empty(s_type);
 
 void push(s_type*, elem_type);
+void push_sorted(s_type*, elem_type);
+void push_sorted_unique(s_type*, elem_type);
 void pop(s_type*);
 void insert_bottom(s_type*, elem_type);
 
@@ -30,9 +32,9 @@ int main()
 
     push(&stack, '1');
     push(&stack, '2');
-    push(&stack, '3');
     push(&stack, '4');
     push(&stack, '5');
+    push_sorted(&stack, '3');
     insert_bottom(&stack, '0');
 
     printf("Insert result: ");
@@ -122,6 +124,48 @@ void push(s_type* stack, elem_type x)
         new_node->link = *stack;
         *stack = new_node;
     }
+}
+
+void push_sorted(s_type* stack, elem_type x)
+{
+    s_type temp_stack;
+
+    init_stack(&temp_stack);
+
+    while (!is_empty(*stack) && x < (*stack)->data) {
+        push(&temp_stack, (*stack)->data);
+        pop(stack);
+    };
+
+    push(stack, x);
+
+    while (!is_empty(temp_stack)) {
+        push(stack, temp_stack->data);
+        pop(&temp_stack);
+    }
+}
+
+void push_sorted_unique(s_type* stack, elem_type x)
+{
+    s_type temp_stack;
+
+    init_stack(&temp_stack);
+
+    while (!is_empty(*stack) && x < (*stack)->data) {
+        push(&temp_stack, (*stack)->data);
+        pop(stack);
+    }
+
+    if (is_empty(*stack) && x != (*stack)->data) {
+        push(stack, x);
+    }
+
+    while (!is_empty(temp_stack)) {
+        push(stack, temp_stack->data);
+        pop(&temp_stack);
+    }
+
+    make_null(&temp_stack);
 }
 
 void pop(s_type* stack)

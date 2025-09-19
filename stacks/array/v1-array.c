@@ -19,6 +19,8 @@ bool is_full(s_type);
 bool is_empty(s_type);
 
 void push(s_type*, elem_type);
+void push_sorted(s_type*, elem_type);
+void push_sorted_unique(s_type*, elem_type);
 void pop(s_type*);
 void insert_bottom(s_type*, elem_type);
 
@@ -99,6 +101,50 @@ void push(s_type* stack, elem_type x)
 {
     if (!is_full(*stack)) {
         stack->data[++stack->top] = x;
+    }
+}
+
+void push_sorted(s_type* stack, elem_type x)
+{
+    if (!is_full(*stack)) {
+        s_type temp_stack;
+
+        init_stack(&temp_stack);
+
+        while (!is_empty(*stack) && x > stack->data[stack->top]) {
+            push(&temp_stack, stack->data[stack->top]);
+            pop(stack);
+        }
+
+        push(stack, x);
+
+        while (!is_empty(temp_stack)) {
+            push(stack, temp_stack.data[temp_stack.top]);
+            pop(&temp_stack);
+        }
+    }
+}
+
+void push_sorted_unique(s_type* stack, elem_type x)
+{
+    if (!is_full(*stack)) {
+        s_type temp_stack;
+
+        init_stack(&temp_stack);
+
+        while (!is_empty(*stack) && x > stack->data[stack->top]) {
+            push(&temp_stack, stack->data[stack->top]);
+            pop(stack);
+        }
+
+        if (stack->top == -1 || x != stack->data[stack->top]) {
+            push(stack, x);
+        }
+
+        while (!is_empty(temp_stack)) {
+            push(stack, temp_stack.data[temp_stack.top]);
+            pop(&temp_stack);
+        }
     }
 }
 

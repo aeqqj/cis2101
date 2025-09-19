@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #define MAX 20
@@ -7,8 +7,7 @@
 typedef char elem_type;
 
 typedef struct node {
-    elem_type* data;
-    int data_size;
+    elem_type data[MAX];
     int top;
 }* s_type;
 
@@ -21,6 +20,8 @@ bool is_full(s_type);
 bool is_empty(s_type);
 
 void push(s_type, elem_type);
+void push_sorted(s_type, elem_type);
+void push_sorted_unique(s_type, elem_type);
 void pop(s_type);
 void insert_bottom(s_type, elem_type);
 
@@ -29,6 +30,7 @@ elem_type top(s_type);
 int main()
 {
     s_type stack;
+    int i;
 
     init_stack(&stack);
 
@@ -51,6 +53,8 @@ int main()
 
     printf("Delete result: ");
     read_stack(stack);
+
+    free(stack);
 }
 
 void init_stack(s_type* stack)
@@ -58,14 +62,7 @@ void init_stack(s_type* stack)
     *stack = (s_type)malloc(sizeof(struct node));
 
     if (*stack != NULL) {
-        (*stack)->data = (elem_type*)malloc(sizeof(elem_type) * MAX);
-        
-        if((*stack)->data != NULL) {
-            (*stack)->top = -1;
-        } else {
-            free(*stack);
-            *stack = NULL;
-        }
+        (*stack)->top = -1;
     }
 }
 
@@ -86,8 +83,8 @@ void read_stack(s_type stack)
             push(stack, temp_stack->data[temp_stack->top]);
             pop(temp_stack);
         }
-
         make_null(&temp_stack);
+
         printf("\n");
     }
 }
@@ -99,30 +96,27 @@ bool is_member(s_type stack, elem_type x)
         s_type temp_stack;
 
         init_stack(&temp_stack);
-        while(!is_empty(stack)) {
+        while (!is_empty(stack)) {
             if (stack->data[stack->top] == x) {
                 flag = true;
             }
-
             push(temp_stack, stack->data[stack->top]);
             pop(stack);
         }
 
-        while(!is_empty(temp_stack)) {
+        while (!is_empty(temp_stack)) {
             push(stack, temp_stack->data[temp_stack->top]);
             pop(temp_stack);
         }
 
         make_null(&temp_stack);
     }
-
     return flag;
 }
 
 void make_null(s_type* stack)
 {
     if (*stack != NULL) {
-        free((*stack)->data);
         free(*stack);
         *stack = NULL;
     }
@@ -145,6 +139,53 @@ void push(s_type stack, elem_type x)
     }
 }
 
+void push_sorted(s_type stack, elem_type x)
+{
+    if (!is_full(stack)) {
+        s_type temp_stack;
+
+        init_stack(&temp_stack);
+
+        while (!is_empty(stack) && x > stack->data[stack->top]) {
+            push(temp_stack, stack->data[stack->top]);
+            pop(stack);
+        }
+
+        push(stack, x);
+
+        while (!is_empty(temp_stack)) {
+            push(stack, temp_stack->data[temp_stack->top]);
+            pop(temp_stack);
+        }
+        make_null(&temp_stack);
+    }
+}
+
+void push_sorted_unique(s_type stack, elem_type x)
+{
+    if (!is_full(stack)) {
+        s_type temp_stack;
+
+        init_stack(&temp_stack);
+
+        while (!is_empty(stack) && x > stack->data[stack->top]) {
+            push(temp_stack, stack->data[stack->top]);
+            pop(stack);
+        }
+
+        if (is_empty(stack) || x != stack->data[stack->top]) {
+            push(stack, x);
+        }
+
+        while (!is_empty(temp_stack)) {
+            push(stack, temp_stack->data[temp_stack->top]);
+            pop(temp_stack);
+        }
+
+        make_null(&temp_stack);
+    }
+}
+
 void pop(s_type stack)
 {
     if (!is_empty(stack)) {
@@ -164,13 +205,12 @@ void insert_bottom(s_type stack, elem_type x)
             pop(stack);
         }
 
-        push (stack, x);
+        push(stack, x);
 
         while (!is_empty(temp_stack)) {
             push(stack, temp_stack->data[temp_stack->top]);
             pop(temp_stack);
         }
-
         make_null(&temp_stack);
     }
 }

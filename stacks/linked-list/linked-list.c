@@ -164,8 +164,6 @@ void push_sorted_unique(s_type* stack, elem_type x)
         push(stack, temp_stack->data);
         pop(&temp_stack);
     }
-
-    make_null(&temp_stack);
 }
 
 void pop(s_type* stack)
@@ -177,7 +175,7 @@ void pop(s_type* stack)
     }
 }
 
-void insert_bottom(s_type* stack, elem_type x)
+void push_bottom(s_type* stack, elem_type x)
 {
     s_type temp_stack;
 

@@ -19,6 +19,7 @@ typedef struct {
 
 void init_queue(q_type*);
 void read_queue(q_type*);
+bool isMember(q_type*, elem_type);
 void make_null(q_type*);
 
 bool is_empty(q_type);
@@ -59,16 +60,37 @@ void read_queue(q_type* queue)
 
         for (i = 0; i < queue->count; i++) {
             elem_type temp = queue->front->data;
-            printf("%c ", queue->front->data);
+            printf("%c ", temp);
             dequeue(queue);
             enqueue(queue, temp);
         }
     }
 }
 
+bool is_member(q_type* queue, elem_type x) 
+{
+    bool flag = false;
+
+    if (!is_empty(*queue)) {
+        int i = 0;
+
+        for (i = 0; i < queue->count; i++) {
+            elem_type temp = queue->front->data;
+            dequeue(queue);
+            enqueue(queue, temp);
+
+            if (x == queue->front->data) {
+                flag = true;
+            }
+        }
+    }
+
+    return flag;
+}
+
 void make_null(q_type* queue)
 {
-    while (queue->front != NULL) {
+    while (!is_empty(*queue)) {
         dequeue(queue);
     }
     queue->rear = NULL;
@@ -150,5 +172,5 @@ void dequeue(q_type* queue)
 
 elem_type front(q_type queue)
 {
-    return queue.front->data;
+    return (!is_empty(queue)) ? queue.front->data : '\0';
 }

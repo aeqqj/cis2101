@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <stdbool.h>
 
 #define MAX 5
 
@@ -8,6 +8,9 @@ typedef int set[MAX];
 
 void populate_set(set);
 void read_set(set);
+
+bool is_member(set, int);
+void make_null(set);
 
 void insert(set, int);
 void delete(set, int);
@@ -46,10 +49,24 @@ void read_set(set a)
     }
 }
 
+bool is_member(set a, int x)
+{
+    return (a[x] == 1) ? true : false;
+}
+
+void make_null(set a)
+{
+    int i;
+
+    for (i = 0; i < MAX; i++) {
+        a[i] = 0;
+    }
+}
+
 void insert(set a, int x)
 {
-    a[x] = 1;
     if (x < MAX) {
+        a[x] = 1;
     }
 }
 
@@ -62,7 +79,7 @@ void delete(set a, int x)
 
 set* Union(set a, set b)
 {
-    set* c = (set*)calloc(MAX, sizeof(set));
+    set* c = (set*)malloc(sizeof(set));
 
     if (c != NULL) {
         int i;
@@ -98,7 +115,7 @@ set* Difference(set a, set b)
         int i;
 
         for (i = 0; i < MAX; i++) {
-            (*c)[i] = a[i] & ~b[i];
+            (*c)[i] = a[i] & !b[i];
         }
     }
 

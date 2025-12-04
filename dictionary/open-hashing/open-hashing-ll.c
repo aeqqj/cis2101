@@ -3,14 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 10
+#define max 10
 
 typedef struct node {
     int data;
     struct node* link;
 }* node_type;
 
-typedef node_type dictionary[MAX];
+typedef node_type dictionary[max];
 
 void init_dict(dictionary);
 void read_dict(dictionary);
@@ -26,10 +26,10 @@ int main() // written in ai looooool
     dictionary d;
     init_dict(d);
 
-    printf("=== Hash Table Dictionary Demo ===\n\n");
+    printf("=== hash table dictionary demo ===\n\n");
 
-    // Insert some values
-    printf("Inserting values: 5, 15, 25, 7, 17, 3, 13\n");
+    // insert some values
+    printf("inserting values: 5, 15, 25, 7, 17, 3, 13\n");
     insert(d, 5);
     insert(d, 15);
     insert(d, 25);
@@ -38,22 +38,22 @@ int main() // written in ai looooool
     insert(d, 3);
     insert(d, 13);
 
-    printf("\nDictionary contents:\n");
+    printf("\ndictionary contents:\n");
     read_dict(d);
 
-    // Test membership
-    printf("\nTesting membership:\n");
-    printf("Is 15 in dictionary? %s\n", is_member(d, 15) ? "Yes" : "No");
-    printf("Is 20 in dictionary? %s\n", is_member(d, 20) ? "Yes" : "No");
+    // test membership
+    printf("\ntesting membership:\n");
+    printf("is 15 in dictionary? %s\n", is_member(d, 15) ? "yes" : "no");
+    printf("is 20 in dictionary? %s\n", is_member(d, 20) ? "yes" : "no");
 
-    // Delete a value
-    printf("\nDeleting 15...\n");
+    // delete a value
+    printf("\ndeleting 15...\n");
     delete(d, 15);
 
-    printf("\nDictionary contents after deletion:\n");
+    printf("\ndictionary contents after deletion:\n");
     read_dict(d);
 
-    printf("\nIs 15 in dictionary? %s\n", is_member(d, 15) ? "Yes" : "No");
+    printf("\nis 15 in dictionary? %s\n", is_member(d, 15) ? "yes" : "no");
 
     return 0;
 }
@@ -62,8 +62,8 @@ void init_dict(dictionary d)
 {
     int i;
 
-    for (i = 0; i < MAX; i++) {
-        d[i] = NULL;
+    for (i = 0; i < max; i++) {
+        d[i] = null;
     }
 }
 
@@ -71,12 +71,12 @@ void read_dict(dictionary d)
 {
     int i;
 
-    for (i = 0; i < MAX; i++) {
-        printf("Row %d: ", i);
+    for (i = 0; i < max; i++) {
+        printf("row %d: ", i);
 
         node_type* ptr;
 
-        for (ptr = &d[i]; *ptr != NULL; ptr = &(*ptr)->link) {
+        for (ptr = &d[i]; *ptr != null; ptr = &(*ptr)->link) {
             printf("%d ", (*ptr)->data);
         }
 
@@ -90,9 +90,9 @@ bool is_member(dictionary d, int x)
 
     node_type* ptr;
 
-    for (ptr = &d[index]; *ptr != NULL && x != (*ptr)->data; ptr = &(*ptr)->link) { }
+    for (ptr = &d[index]; *ptr != null && x != (*ptr)->data; ptr = &(*ptr)->link) { }
 
-    return *ptr != NULL;
+    return *ptr != null;
 }
 
 void insert(dictionary d, int x)
@@ -101,13 +101,13 @@ void insert(dictionary d, int x)
 
     node_type* ptr;
 
-    for (ptr = &d[index]; *ptr != NULL && x != (*ptr)->data; ptr = &(*ptr)->link) { }
+    for (ptr = &d[index]; *ptr != null && x != (*ptr)->data; ptr = &(*ptr)->link) { }
 
-    if (*ptr == NULL) {
+    if (*ptr == null) {
         node_type new_node = (node_type)malloc(sizeof(struct node));
 
-        if (new_node != NULL) {
-            new_node->link = NULL;
+        if (new_node != null) {
+            new_node->link = null;
             new_node->data = x;
             *ptr = new_node;
         }
@@ -120,9 +120,9 @@ void delete(dictionary d, int x)
 
     node_type* ptr;
 
-    for (ptr = &d[index]; *ptr != NULL && x != (*ptr)->data; ptr = &(*ptr)->link) { }
+    for (ptr = &d[index]; *ptr != null && x != (*ptr)->data; ptr = &(*ptr)->link) { }
 
-    if (*ptr != NULL) {
+    if (*ptr != null) {
         node_type temp = *ptr;
         *ptr = temp->link;
         free(temp);
@@ -131,5 +131,5 @@ void delete(dictionary d, int x)
 
 int hash(int x)
 {
-    return x % MAX;
+    return x % max;
 }

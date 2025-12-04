@@ -8,16 +8,6 @@ typedef enum {
     DELETED = -2
 } status;
 
-typedef struct {
-    int data;
-    int link;
-} node_type;
-
-typedef struct {
-    node_type vh_node[MAX];
-    int avail;
-} vh_type;
-
 typedef int dictionary[MAX];
 
 void init_dict(dictionary);
@@ -114,11 +104,11 @@ bool is_member(dictionary d, int x)
 
 void insert(dictionary d, int x)
 {
-    int index = hash(x);
+    int index;
     int avail = -1;
     int stop = (index + MAX - 1) % MAX;
 
-    for (; index != stop && x != d[index] && EMPTY != d[index]; index = (index + 1) % MAX) {
+    for (index = hash(x); index != stop && x != d[index] && EMPTY != d[index]; index = (index + 1) % MAX) {
         if (avail == -1 && DELETED == d[index]) {
             avail = index;
         }

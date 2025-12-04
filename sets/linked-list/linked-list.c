@@ -10,7 +10,7 @@ typedef struct node {
 }* s_type;
 
 void populate_set(s_type*);
-void read_set(s_type*);
+void read_set(s_type);
 
 bool is_member(s_type, elem_type);
 void make_null(s_type*);
@@ -36,10 +36,10 @@ int main()
     populate_set(&b);
 
     printf("Set A: ");
-    read_set(&a);
+    read_set(a);
 
     printf("Set B: ");
-    read_set(&b);
+    read_set(b);
 
     printf("Insert in set A: ");
     scanf("%d", &data);
@@ -50,10 +50,10 @@ int main()
     insert(&b, data);
 
     printf("Set A (post-insertion): ");
-    read_set(&a);
+    read_set(a);
 
     printf("Set B (post-insertion): ");
-    read_set(&b);
+    read_set(b);
 
     printf("Delete in set A: ");
     scanf("%d", &data);
@@ -64,26 +64,26 @@ int main()
     delete(&b, data);
 
     printf("Set A (post-deletion): ");
-    read_set(&a);
+    read_set(a);
 
     printf("Set B (post-deletion): ");
-    read_set(&b);
+    read_set(b);
 
     s_type c = Union(a, b);
     printf("Union of A and B: ");
-    read_set(&c);
+    read_set(c);
 
     c = Intersection(a, b);
     printf("Intersection of A and B: ");
-    read_set(&c);
+    read_set(c);
 
     c = Difference(a, b);
     printf("Difference of A and B: ");
-    read_set(&c);
+    read_set(c);
 
     c = Difference(b, a);
     printf("Difference of B and A: ");
-    read_set(&c);
+    read_set(c);
 
     return 0;
 }
@@ -105,11 +105,11 @@ void populate_set(s_type* a)
     }
 }
 
-void read_set(s_type* a)
+void read_set(s_type a)
 {
     s_type ptr;
 
-    for (ptr = *a; ptr != NULL; ptr = ptr->link) {
+    for (ptr = a; ptr != NULL; ptr = ptr->link) {
         printf("%d ", ptr->data);
     }
     printf("\n");
@@ -192,7 +192,7 @@ s_type Intersection(s_type a, s_type b)
 
             if (new_node != NULL) {
                 new_node->data = aptr->data;
-                new_node->link = NULL;
+                new_node->link = c;
                 *ptr = new_node;
                 ptr = &(*ptr)->link;
             }
@@ -216,7 +216,7 @@ s_type Difference(s_type a, s_type b)
 
             if (new_node != NULL) {
                 new_node->data = aptr->data;
-                new_node->link = NULL;
+                new_node->link = c;
                 *ptr = new_node;
                 ptr = &(*ptr)->link;
             }

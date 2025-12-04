@@ -10,8 +10,9 @@ typedef struct {
     int size;
 } s_type;
 
+void init_set(s_type*);
 void populate_set(s_type*);
-void read_set(s_type*);
+void read_set(s_type);
 
 bool is_member(s_type, elem_type);
 void make_null(s_type*);
@@ -26,9 +27,12 @@ s_type Difference(s_type, s_type);
 
 int main()
 {
-    s_type a = { {}, 0 };
-    s_type b = { {}, 0 };
+    s_type a;
+    s_type b;
     elem_type data;
+
+    init_set(&a);
+    init_set(&b);
 
     printf("Populate set A: \n");
     populate_set(&a);
@@ -37,10 +41,10 @@ int main()
     populate_set(&b);
 
     printf("Set A: ");
-    read_set(&a);
+    read_set(a);
 
     printf("Set B: ");
-    read_set(&b);
+    read_set(b);
 
     printf("Insert in set A: ");
     scanf("%d", &data);
@@ -51,26 +55,26 @@ int main()
     insert(&b, data);
 
     printf("Set A (post-insertion): ");
-    read_set(&a);
+    read_set(a);
 
     printf("Set B (post-insertion): ");
-    read_set(&b);
+    read_set(b);
 
     s_type c = Union(a, b);
     printf("Union of A and B: ");
-    read_set(&c);
+    read_set(c);
 
     c = Intersection(a, b);
     printf("Intersection of A and B: ");
-    read_set(&c);
+    read_set(c);
 
     c = Difference(a, b);
     printf("Difference of A and B: ");
-    read_set(&c);
+    read_set(c);
 
     c = Difference(b, a);
     printf("Difference of B and A: ");
-    read_set(&c);
+    read_set(c);
 
     return 0;
 }
@@ -87,12 +91,12 @@ void populate_set(s_type* a)
     }
 }
 
-void read_set(s_type* a)
+void read_set(s_type a)
 {
     int i;
 
-    for (i = 0; i < a->size; i++) {
-        printf("%d ", a->data[i]);
+    for (i = 0; i < a.size; i++) {
+        printf("%d ", a.data[i]);
     }
     printf("\n");
 }
@@ -131,10 +135,8 @@ void delete(s_type* a, elem_type x)
     for (i = 0; i < a->size && x != a->data[i]; i++) { }
 
     if (i < a->size) {
-        a->size--;
-
         if (a->size > 0) {
-            a->data[i] = a->data[a->size];
+            a->data[i] = a->data[--a->size];
         }
     }
 }

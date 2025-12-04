@@ -34,6 +34,49 @@ void free_vh(vh_type*, int);
 
 int main()
 {
+    vh_type vh;
+    r_type root;
+    
+    // Initialize the virtual heap and tree
+    init_vh(&vh);
+    init_tree(&root);
+    
+    printf("=== Binary Search Tree Testing ===\n\n");
+    
+    // Insert some values
+    printf("Inserting values: 50, 30, 70, 20, 40, 60, 80\n");
+    insert_tree(&vh, &root, 50);
+    insert_tree(&vh, &root, 30);
+    insert_tree(&vh, &root, 70);
+    insert_tree(&vh, &root, 20);
+    insert_tree(&vh, &root, 40);
+    insert_tree(&vh, &root, 60);
+    insert_tree(&vh, &root, 80);
+    
+    // Test membership
+    printf("\n--- Testing Membership ---\n");
+    printf("Is 40 in tree? %s\n", is_member(vh, root, 40) ? "Yes" : "No");
+    printf("Is 100 in tree? %s\n", is_member(vh, root, 100) ? "Yes" : "No");
+    
+    // Find min and max
+    printf("\n--- Min/Max ---\n");
+    printf("Minimum value: %d\n", min_tree(vh, root));
+    printf("Maximum value: %d\n", max_tree(vh, root));
+    
+    // Delete a node
+    printf("\n--- Deleting 30 ---\n");
+    delete_tree(&vh, &root, 30);
+    printf("Is 30 in tree? %s\n", is_member(vh, root, 30) ? "Yes" : "No");
+    printf("Minimum value: %d\n", min_tree(vh, root));
+    
+    // Delete another node
+    printf("\n--- Deleting 50 (root) ---\n");
+    delete_tree(&vh, &root, 50);
+    printf("Is 50 in tree? %s\n", is_member(vh, root, 50) ? "Yes" : "No");
+    printf("Minimum value: %d\n", min_tree(vh, root));
+    printf("Maximum value: %d\n", max_tree(vh, root));
+    
+    return 0;
 }
 
 void init_tree(r_type* list)

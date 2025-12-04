@@ -16,17 +16,17 @@ typedef struct vh {
     int avail;
 } vh_type;
 
-typedef int l_type;
+typedef int r_type;
 
-void init_tree(l_type*);
-void populate_tree(vh_type*, l_type*);
-bool is_member(vh_type, l_type, int);
+void init_tree(r_type*);
+void populate_tree(vh_type*, r_type*);
+bool is_member(vh_type, r_type, int);
 
-void insert_tree(vh_type*, l_type*, int);
-void delete_tree(vh_type*, l_type*, int);
+void insert_tree(vh_type*, r_type*, int);
+void delete_tree(vh_type*, r_type*, int);
 
-int min_tree(vh_type, l_type);
-int max_tree(vh_type, l_type);
+int min_tree(vh_type, r_type);
+int max_tree(vh_type, r_type);
 
 void init_vh(vh_type*);
 int malloc_vh(vh_type*);
@@ -36,16 +36,16 @@ int main()
 {
 }
 
-void init_tree(l_type* list)
+void init_tree(r_type* list)
 {
     *list = -1;
 }
 
-void populate_tree(vh_type* vh, l_type* list)
+void populate_tree(vh_type* vh, r_type* list)
 {
 }
 
-bool is_member(vh_type vh, l_type list, int x)
+bool is_member(vh_type vh, r_type list, int x)
 {
     int i;
 
@@ -60,7 +60,7 @@ bool is_member(vh_type vh, l_type list, int x)
     return (i != -1) ? true : false;
 }
 
-void insert_tree(vh_type* vh, l_type* list, int x)
+void insert_tree(vh_type* vh, r_type* list, int x)
 {
     if (vh->avail != -1) {
         int* i;
@@ -85,7 +85,7 @@ void insert_tree(vh_type* vh, l_type* list, int x)
     }
 }
 
-void delete_tree(vh_type* vh, l_type* list, int x)
+void delete_tree(vh_type* vh, r_type* list, int x)
 {
     int* i;
     int temp;
@@ -116,7 +116,7 @@ void delete_tree(vh_type* vh, l_type* list, int x)
     }
 }
 
-int min_tree(vh_type vh, l_type list)
+int min_tree(vh_type vh, r_type list)
 {
     int i;
 
@@ -125,7 +125,7 @@ int min_tree(vh_type vh, l_type list)
     return vh.vh_node[i].data;
 }
 
-int max_tree(vh_type vh, l_type list)
+int max_tree(vh_type vh, r_type list)
 {
     int i;
 

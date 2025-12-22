@@ -16,6 +16,10 @@ void insert_tree(tree_type*, int);
 
 void min_heapify(tree_type*, int);
 
+void pre_order(tree_type);
+void in_order(tree_type);
+void post_order(tree_type);
+
 int main() {
 
 }

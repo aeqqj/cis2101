@@ -86,11 +86,11 @@ int right_sibling(tree_type tree, int child)
 
 int parent(tree_type tree, int child)
 {
-    int parent = -2;
+    int parent = EMPTY;
     
     if (child >= 0 && child < MAX) {
         parent = tree[child];
     }
 
-    return EMPTY;
+    return parent;
 }

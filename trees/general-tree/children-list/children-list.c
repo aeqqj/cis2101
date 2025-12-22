@@ -26,7 +26,6 @@ void insert_tree(tree_type*, int, int);
 
 int main()
 {
-
 }
 
 void init_tree(tree_type* tree)

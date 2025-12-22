@@ -10,6 +10,7 @@ typedef struct {
     int last_index;
 } tree_type;
 
+// bruh what the hell bruh
 void init_tree(tree_type*);
 void populate_tree(tree_type*);
 void read_tree(tree_type);
